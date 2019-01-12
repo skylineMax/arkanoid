@@ -47,24 +47,6 @@ void Game::UpdateModel()
 
 void Game::ComposeFrame()
 {
-	Draw(Graphics::ScreenWidth / 5, Graphics::ScreenHeight / 2, 150, 100, Colors::LightGray);
-	Draw(2*Graphics::ScreenWidth / 5, Graphics::ScreenHeight / 2, 150, 100, Colors::LightGray);
-	Draw(3*Graphics::ScreenWidth / 5, Graphics::ScreenHeight / 2, 150, 100, Colors::LightGray);
-	Draw(4*Graphics::ScreenWidth / 5, Graphics::ScreenHeight / 2, 150, 100, Colors::LightGray);
-
-}
-
-void Game::Draw(int x, int y, int r, Color c)
-{
-	for (int i = y - r; i < y + r + 1; i++)
-	{
-		for (int j = x - r; j < x + r + 1; j++)
-		{
-			int x0 = x - j;
-			int y0 = y - i;
-
-			if (x*x + y * y <= r*r)
-				gfx.PutPixel(j, i, c);
-		}
-	}
+	gfx.DrawCircle(400, 400, 50, Colors::Red);
+	gfx.DrawRect(200, 100, 100, 50, Colors::Blue);
 }

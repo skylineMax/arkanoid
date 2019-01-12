@@ -38,7 +38,6 @@ private:
 	void UpdateModel();
 	/********************************/
 	/*  User Functions              */
-	void Draw(int x, int y,int r1, int r2, Color c);
 	/********************************/
 private:
 	MainWindow& wnd;

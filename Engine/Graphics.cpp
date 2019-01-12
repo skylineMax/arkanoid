@@ -240,6 +240,8 @@ Graphics::Graphics( HWNDKey& key )
 		_aligned_malloc( sizeof( Color ) * Graphics::ScreenWidth * Graphics::ScreenHeight,16u ) );
 }
 
+
+
 Graphics::~Graphics()
 {
 	// free sysbuffer memory (aligned free)
@@ -316,7 +318,7 @@ void Graphics::PutPixel( int x,int y,Color c )
 	pSysBuffer[Graphics::ScreenWidth * y + x] = c;
 }
 
-void Graphics::DrawRect(int x0, int y0, int x1, int y1, Color c)
+void Graphics::DrawRectWithPoints(int x0, int y0, int x1, int y1, Color c)
 {
 	if (x0 > x1)
 		std::swap(x0, x1);
@@ -326,6 +328,21 @@ void Graphics::DrawRect(int x0, int y0, int x1, int y1, Color c)
 	for (int _y = y0; _y < y1; ++_y)
 		for (int _x = x0; _x < x1; ++_x)
 			PutPixel(_x, _y, c);
+}
+
+void Graphics::DrawCircle(int x, int y, int r, Color c)
+{
+	for (int i = y - r; i < y + r + 1; i++)
+	{
+		for (int j = x - r; j < x + r + 1; j++)
+		{
+			int x0 = x - j;
+			int y0 = y - i;
+
+			if (x0*x0 + y0*y0 <= r * r)
+				PutPixel(j, i, c);
+		}
+	}
 }
 
 

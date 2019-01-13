@@ -345,6 +345,21 @@ void Graphics::DrawCircle(int x, int y, int r, Color c)
 	}
 }
 
+void Graphics::DrawVerticalLine(int x, int y, int length, Color c)
+{
+	for (int i = y; i < y + length; i++)
+	{
+		PutPixel(x, i, c);
+	}
+}
+
+void Graphics::DrawHorizontalLine(int x, int y, int length, Color c)
+{
+	for (int i = x; i < x + length; i++)
+	{
+		PutPixel(i, y, c);
+	}
+}
 
 //////////////////////////////////////////////////
 //           Graphics Exception

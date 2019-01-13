@@ -65,6 +65,8 @@ public:
 	}
 
 	void DrawCircle(int x, int y, int r, Color c);
+	void DrawHorizontalLine(int x, int y, int length, Color c);
+	void DrawVerticalLine(int x, int y, int length, Color c);
 
 	~Graphics();
 private:

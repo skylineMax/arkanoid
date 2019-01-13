@@ -39,8 +39,6 @@ private:
 	/********************************/
 	/*  User Functions              */
 
-	void DrawHorizontalLine(int x, int y, int length, Color c);
-	void DrawVerticalLine(int x, int y, int length, Color c);
 	/********************************/
 private:
 	MainWindow& wnd;

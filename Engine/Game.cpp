@@ -30,8 +30,7 @@ Game::Game(MainWindow& wnd)
 	wnd(wnd),
 	gfx(wnd)
 {
-	Vec2 v0(50.0f, 20.0f);
-	Vec2 v1(5.0f, 14.0f);
+
 }
 
 void Game::Go()
@@ -50,22 +49,4 @@ void Game::UpdateModel()
 
 void Game::ComposeFrame()
 {
-}
-
-
-
-void Game::DrawVerticalLine(int x, int y, int length, Color c)
-{
-	for (int i = y; i < y + length; i++)
-	{
-		gfx.PutPixel(x, i, c);
-	}
-}
-
-void Game::DrawHorizontalLine(int x, int y, int length, Color c)
-{
-	for (int i = x; i < x + length; i++)
-	{
-		gfx.PutPixel(i, y, c);
-	}
 }

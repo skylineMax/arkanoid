@@ -28,9 +28,18 @@
 Game::Game(MainWindow& wnd)
 	:
 	wnd(wnd),
-	gfx(wnd)
+	gfx(wnd),
+	player(Vec2(400,400), Vec2(3,3)),
+	rng(rd()),
+	xDist(0, 770),
+	yDist(0, 570)
 {
+	std::uniform_int_distribution<int> vDist(-1, 1);
 
+	for (int i = 0; i < nMembers; i++)
+	{
+		members[i].Init( Vec2(xDist(rng), yDist(rng)), Vec2(vDist(rng), vDist(rng)) );
+	}
 }
 
 void Game::Go()
@@ -43,10 +52,26 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
-
+	if (!isGameOver)
+	{
+		player.Update(wnd.kbd);
+		player.ClampToScreen();
+		for (int i = 0; i < nMembers; i++)
+		{
+			members[i].Update();
+			if(members[i].TestCollision(player))
+				isGameOver = true;
+		}
+	}
 }
 
 
 void Game::ComposeFrame()
 {
+	for (int i = 0; i < nMembers; i++)
+	{
+		members[i].Draw(gfx, Colors::Cyan);
+	}
+
+	player.Draw(gfx, Colors::Red);
 }

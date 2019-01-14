@@ -24,6 +24,9 @@
 #include "Keyboard.h"
 #include "Mouse.h"
 #include "Graphics.h"
+#include "Player.h"
+#include "Member.h"
+#include <random>
 
 class Game
 {
@@ -44,8 +47,19 @@ private:
 	MainWindow& wnd;
 	Graphics gfx;
 
+	Player player;
+	std::random_device rd;
+	std::mt19937 rng;
+	std::uniform_int_distribution<int> xDist;
+	std::uniform_int_distribution<int> yDist;
+
+	
+	static constexpr int nMembers = 20;
+	Member members[nMembers];
+
 	/********************************/
 	/*  User Variables     */
-
+	bool isStarted = false;
+	bool isGameOver = false;
 	/********************************/
 };

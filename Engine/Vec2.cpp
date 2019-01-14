@@ -1,7 +1,7 @@
 #include "Vec2.h"
 #include <cmath>
 
-Vec2::Vec2(float _x, float _y)
+Vec2::Vec2(int _x, int _y)
 	:
 	x(_x), y(_y)
 {
@@ -27,22 +27,22 @@ Vec2 & Vec2::operator-=(const Vec2 & rhs)
 	return *this = *this - rhs;
 }
 
-Vec2 Vec2::operator*(float rhs) const
+Vec2 Vec2::operator*(int rhs) const
 {
 	return Vec2(x * rhs, y * rhs);
 }
 
-Vec2 & Vec2::operator*=(float rhs)
+Vec2 & Vec2::operator*=(int rhs)
 {
 	return *this = *this * rhs;
 }
 
-float Vec2::GetLength() const
+int Vec2::GetLength() const
 {
 	return sqrt(GetLengthSq());
 }
 
-float Vec2::GetLengthSq() const
+int Vec2::GetLengthSq() const
 {
 	return x*x + y*y;
 }
@@ -54,7 +54,7 @@ Vec2& Vec2::Normalize()
 
 Vec2 Vec2::GetNormalized() const
 {
-	const float len = GetLength();
+	const int len = GetLength();
 	if (len != 0.0f) 
 		return *this * (1.0f / len);
 	return *this;

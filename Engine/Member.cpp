@@ -6,33 +6,33 @@ void Member::Init(Vec2 & _pos, Vec2 & _vel)
 	vel = _vel;
 }
 
-void Member::Update()
+void Member::Update(Player& player, float dt)
 {
-	pos += vel;
+	pos += vel * dt;
 
-	const int right = pos.x + width;
+	const float right = pos.x + width;
 
 	if (pos.x < 0)
 	{
 		pos.x = 0;
 		vel.x = -vel.x;
 	}
-	else if (right >= Graphics::ScreenWidth)
+	else if (right >= (float)Graphics::ScreenWidth)
 	{
-		pos.x = Graphics::ScreenWidth - width;
+		pos.x = (float)Graphics::ScreenWidth - width;
 		vel.x = -vel.x;
 	}
 
-	const int bottom = pos.y + height;
+	const float bottom = pos.y + height;
 
 	if (pos.y < 0)
 	{
 		pos.y = 0;
 		vel.y = -vel.y;
 	}
-	else if (bottom >= Graphics::ScreenHeight)
+	else if (bottom >= (float)Graphics::ScreenHeight)
 	{
-		pos.y = Graphics::ScreenHeight - height;
+		pos.y = (float)Graphics::ScreenHeight - height;
 		vel.y = -vel.y;
 	}
 
@@ -40,19 +40,29 @@ void Member::Update()
 
 void Member::Draw(Graphics& gfx, Color c)
 {
-	gfx.DrawRect(pos.x, pos.y, width, height, c);
+	gfx.DrawRect(int(pos.x), int(pos.y), int(width), int(height), c);
 }
 
 bool Member::TestCollision(const Player & player)
 {
-	const int playerRight = player.GetPos().x + player.GetWidth();
-	const int playerBottom = player.GetPos().y + player.GetHeight();
-	const int memberRight = pos.x + width;
-	const int memberBottom = pos.y + height;
+	const float playerRight = player.GetPos().x + player.GetWidth();
+	const float playerBottom = player.GetPos().y + player.GetHeight();
+	const float memberRight = pos.x + width;
+	const float memberBottom = pos.y + height;
 
 	return
 		playerRight >= pos.x &&
 		memberRight >= player.GetPos().x &&
 		playerBottom >= pos.y &&
 		memberBottom >= player.GetPos().y;
+}
+
+bool Member::GetCollision() const
+{
+	return isCollided;
+}
+
+void Member::SetCollision(bool collision)
+{
+	isCollided = collision;
 }

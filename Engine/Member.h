@@ -7,12 +7,16 @@ class Member
 {
 public:
 	void Init(Vec2& _pos, Vec2& _vel);
-	void Update();
+	void Update(Player& player, float dt);
 	void Draw(Graphics& gfx, Color c);
 	bool TestCollision(const Player& player);
+
+	bool GetCollision() const;
+	void SetCollision(bool collision);
 private:
 	Vec2 pos;
 	Vec2 vel;
-	static constexpr int width = 20;
-	static constexpr int height = 20;
+	static constexpr float width = 20.0f;
+	static constexpr float height = 20.0f;
+	bool isCollided = false;
 };

@@ -29,12 +29,12 @@ Game::Game(MainWindow& wnd)
 	:
 	wnd(wnd),
 	gfx(wnd),
-	player(Vec2(400,400), Vec2(3,3)),
+	player(Vec2(400.0f,400.f), Vec2(3.0f * 60.0f, 3.0f * 60.0f)),
 	rng(rd()),
 	xDist(0, 770),
 	yDist(0, 570)
 {
-	std::uniform_int_distribution<int> vDist(-1, 1);
+	std::uniform_real_distribution<float> vDist(-1.5 * 60.0f, 1.5 * 60.0f);
 
 	for (int i = 0; i < nMembers; i++)
 	{
@@ -52,15 +52,21 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
+	const float dt = ft.Mark();
+
 	if (!isGameOver)
 	{
-		player.Update(wnd.kbd);
+
+		player.Update(wnd.kbd, dt);
 		player.ClampToScreen();
 		for (int i = 0; i < nMembers; i++)
 		{
-			members[i].Update();
-			if(members[i].TestCollision(player))
+			/*if (members[i].TestCollision(player))
+				members[i].SetCollision(members[i].TestCollision(player));*/
+			if (members[i].TestCollision(player))
 				isGameOver = true;
+			members[i].Update(player, dt);
+			
 		}
 	}
 }

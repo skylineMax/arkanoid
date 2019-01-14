@@ -9,19 +9,19 @@ class Player
 {
 public:
 	Player(Vec2& _pos, Vec2& _vel);
-	void Update(const Keyboard& kbd);
+	void Update(const Keyboard& kbd, float dt);
 	void ClampToScreen();
 	void Draw(Graphics& gfx, Color c);
 
 	Vec2 GetPos() const;
 	Vec2 GetVel() const;
-	int GetWidth() const;
-	int GetHeight() const;
+	float GetWidth() const;
+	float GetHeight() const;
 
 private:
 	Vec2 pos;
 	Vec2 vel;
-	static constexpr int width = 20;
-	static constexpr int height = 20;
+	static constexpr float width = 20.0f;
+	static constexpr float height = 20.0f;
 
 };

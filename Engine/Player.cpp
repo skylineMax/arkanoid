@@ -9,15 +9,26 @@ Player::Player(Vec2 & _pos, Vec2& _vel)
 
 void Player::Update(const Keyboard& kbd, float dt)
 {
+	Vec2 dvel(0.0f, 0.0f);
 	if (kbd.KeyIsPressed('W'))
-		pos.y -= vel.y * dt;
+		dvel.y -= 1.0f;
 	if (kbd.KeyIsPressed('S'))
-		pos.y += vel.y * dt;
+		dvel.y += 1.0f;
 	if (kbd.KeyIsPressed('A'))
-		pos.x -= vel.x * dt;
+		dvel.x -= 1.0f;
 	if (kbd.KeyIsPressed('D'))
-		pos.x += vel.x * dt;
+		dvel.x += 1.0f;
+	pos += dvel.GetNormalized() * vel * dt;
+}
 
+void Player::Update(const Mouse & mouse, float dt)
+{
+	if (mouse.LeftIsPressed())
+	{
+		const Vec2 center = pos + Vec2(width / 2.0f, height / 2.0f);
+		const Vec2 toPointer = Vec2((float)mouse.GetPosX(), (float)mouse.GetPosY()) - center;
+		pos += toPointer.GetNormalized() * vel * dt;
+	}
 }
 
 void Player::ClampToScreen()

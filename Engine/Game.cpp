@@ -58,6 +58,7 @@ void Game::UpdateModel()
 	{
 
 		player.Update(wnd.kbd, dt);
+		player.Update(wnd.mouse, dt);
 		player.ClampToScreen();
 		for (int i = 0; i < nMembers; i++)
 		{

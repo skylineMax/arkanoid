@@ -3,6 +3,7 @@
 #include "Vec2.h"
 #include "Graphics.h"
 #include "Keyboard.h"
+#include "Mouse.h"
 
 
 class Player
@@ -10,6 +11,7 @@ class Player
 public:
 	Player(Vec2& _pos, Vec2& _vel);
 	void Update(const Keyboard& kbd, float dt);
+	void Update(const Mouse& mouse, float dt);
 	void ClampToScreen();
 	void Draw(Graphics& gfx, Color c);
 

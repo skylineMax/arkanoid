@@ -8,8 +8,10 @@ Ball::Ball(const Vec2 & center, const Vec2& _vel, Color _color) :
 
 void Ball::Update(float dt)
 {
-	pos += vel * dt;
-
+	if (!dead)
+		pos += vel * dt;
+	else
+		ResetBall();
 }
 
 void Ball::Draw(Graphics & gfx)
@@ -45,8 +47,15 @@ bool Ball::DoWallCollision(const Rect & walls)
 		pos.y -= (rect.bottom - walls.bottom + 1);
 		ReboundY();
 		collided = true;
+		dead = true;
 	}
 	return collided;
+}
+
+void Ball::ResetBall()
+{
+	dead = false;
+	pos = Vec2(400.0f, 300.0f);
 }
 
 void Ball::ReboundX()
@@ -77,4 +86,9 @@ Vec2 Ball::GetVel() const
 void Ball::SetDir(Vec2 _vel)
 {
 	vel = _vel;
+}
+
+bool Ball::isDead() const
+{
+	return dead;
 }

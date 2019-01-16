@@ -9,6 +9,7 @@ public:
 	void Update(float dt);
 	void Draw(Graphics& gfx);
 	bool DoWallCollision(const Rect& walls);
+	void ResetBall();
 
 	void ReboundX();
 	void ReboundY();
@@ -16,10 +17,12 @@ public:
 	Vec2 GetPos() const;
 	Vec2 GetVel() const;
 	void SetDir(Vec2 _vel);
+	bool isDead() const;
 private:
-	static constexpr float radius = 10.0f;
+	static constexpr float radius = 5.0f;
 	Vec2 pos;
 	Vec2 vel;
 	Color color;
+	bool dead = false;
 	
 };

@@ -69,7 +69,7 @@ Vec2 Ball::GetPos() const
 	return pos;
 }
 
-Vec2 Ball::GetDir() const
+Vec2 Ball::GetVel() const
 {
 	return vel;
 }

@@ -52,7 +52,11 @@ private:
 	Paddle paddle;
 	Rect walls;
 	Ball ball;
-	Brick brick;
+
+	static constexpr int columns = 12;
+	static constexpr int rows = 4;
+	static constexpr int n = columns * rows;
+	Brick bricks[n];
 
 	std::random_device rd;
 	std::mt19937 rng;

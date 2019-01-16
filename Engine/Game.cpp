@@ -31,12 +31,20 @@ Game::Game(MainWindow& wnd)
 	gfx(wnd),
 	paddle(Vec2(750.0f,500.0f), 50.0f, 20.0f, Colors::White),
 	walls(0.0f, 0.0f, (float)gfx.ScreenWidth, (float)gfx.ScreenHeight),
-	ball(Vec2(790.0f, 375.0f), Vec2(-100.0f, 100.0f), Colors::Red),
-	brick(Rect(Vec2(400.0f, 400.0f), Vec2(450.0f, 450.0f)), Colors::Cyan),
+	ball(Vec2(790.0f, 375.0f), Vec2(-400.0f, 400.0f), Colors::Red),
 	rng(rd()),
 	xDist(0.0f, 770.0f),
 	yDist(0.0f, 570.0f)
 {
+	int i = 0;
+	for (int y = 0; y < rows; y++)
+	{
+		for (int x = 0; x < columns; x++)
+		{
+			bricks[i] = Brick(Rect(x * 20.0f, y * 10.0f, x * 40.0f + 20.0f, y * 20.0f + 10.0f), Colors::Cyan);
+			i++;
+		}
+	}
 }
 
 void Game::Go()
@@ -55,11 +63,20 @@ void Game::Go()
 
 void Game::UpdateModel(float dt)
 {
+	/* Updating */
 	ball.Update(dt);
 	paddle.Update(wnd.kbd, dt);
+
+	/* Collisions*/
+
+	for (int i = 0; i < n; i++)
+	{
+		if (bricks[i].CheckBallCollision(ball))
+			bricks[i].DoBallCollision(ball);
+	}
 	
-	brick.DoBallCollision(ball);
 	paddle.DoBallCollision(ball);
+
 	if (ball.DoWallCollision(walls))
 		paddle.ResetCooldown();
 
@@ -72,6 +89,9 @@ void Game::ComposeFrame()
 
 	paddle.Draw(gfx);
 	ball.Draw(gfx);
-	if(!brick.isDestroyed())
-		brick.Draw(gfx);
+
+	for (int i = 0; i < n; i++)
+	{
+		bricks[i].Draw(gfx);
+	}
 }

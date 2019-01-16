@@ -36,11 +36,7 @@ bool Paddle::DoBallCollision(Ball & ball)
 		if (paddle.isOverLappingWith(ball.GetRect()))
 		{
 			Vec2 ballPos = ball.GetPos();
-			Vec2 BallNormalized = ball.GetDir().GetNormalized();
-			Vec2 PaddleNormalized = (ballPos - pos).GetNormalized();
-			//if (std::signbit(ball.GetDir().x) == std::signbit((ballPos - pos).x))
-			if (BallNormalized.x > 0 && PaddleNormalized.x > 0
-				|| BallNormalized.x < 0 && PaddleNormalized.x < 0)
+			if (std::signbit(ball.GetVel().x) == std::signbit((ballPos - pos).x))
 			{
 					ball.ReboundY();
 			}

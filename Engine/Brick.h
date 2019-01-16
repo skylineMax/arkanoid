@@ -10,13 +10,15 @@ public:
 	Brick() = default;
 	Brick(const Rect& _rect, Color _color);
 	void Draw(Graphics& gfx);
+	bool CheckBallCollision(const Ball& ball) const;
+	void DoBallCollision(Ball& ball);
 
-	bool DoBallCollision(Ball& ball);
-
-	Rect GetRect() const;
+	//Rect GetRect() const;
 	bool isDestroyed() const;
 private:
-	Rect rect;
+	static constexpr float padding = 1;
+	Rect brick;
+	Vec2 pos;
 	Color color;
 	bool destroyed = false;
 };

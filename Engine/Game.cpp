@@ -125,8 +125,6 @@ void Game::UpdateModel(float dt)
 
 void Game::ComposeFrame()
 {
-
-
 	paddle.Draw(gfx);
 	if (!ball.isDead())
 	{

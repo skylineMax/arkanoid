@@ -2,6 +2,7 @@
 #include <vector>
 void ScoreSprite::ShowScore(Graphics& gfx, int score)
 {
+	if (score == 0) DrawZero(gfx, 0);
 	int temp = score;
 	std::vector<int> digits;
 	while (temp != 0)
@@ -13,87 +14,49 @@ void ScoreSprite::ShowScore(Graphics& gfx, int score)
 
 	int size = (int)digits.size();
 
-	if (size > 1)
+	int n = size;
+	while (size != 0)
 	{
-		int n = size;
-		while (size != 0)
+		int offset = (n > 1) ? -25*(n - 1) : 0;
+		switch (*(digits.end() - 1))
 		{
-			int offset = -25*(n - 1);
-			switch (*(digits.end() - 1))
-			{
-			case 1:
-				DrawOne(gfx, offset);
-				break;
-			case 2:
-				DrawTwo(gfx, offset);
-				break;
-			case 3:
-				DrawThree(gfx, offset);
-				break;
-			case 4:
-				DrawFour(gfx, offset);
-				break;
-			case 5:
-				DrawFive(gfx, offset);
-				break;
-			case 6:
-				DrawSix(gfx, offset);
-				break;
-			case 7:
-				DrawSeven(gfx, offset);
-				break;
-			case 8:
-				DrawEight(gfx, offset);
-				break;
-			case 9:
-				DrawNine(gfx, offset);
-				break;
-			case 0:
-				DrawZero(gfx, offset);
-				break;
-			}
-			digits.pop_back();
-			--size;
-			n = n - 2;
+		case 1:
+			DrawOne(gfx, offset);
+			break;
+		case 2:
+			DrawTwo(gfx, offset);
+			break;
+		case 3:
+			DrawThree(gfx, offset);
+			break;
+		case 4:
+			DrawFour(gfx, offset);
+			break;
+		case 5:
+			DrawFive(gfx, offset);
+			break;
+		case 6:
+			DrawSix(gfx, offset);
+			break;
+		case 7:
+			DrawSeven(gfx, offset);
+			break;
+		case 8:
+			DrawEight(gfx, offset);
+			break;
+		case 9:
+			DrawNine(gfx, offset);
+			break;
+		case 0:
+			DrawZero(gfx, offset);
+			break;
 		}
-	}
-	else
-	{
-		switch (score) 
-		{
-			case 1:
-				DrawOne(gfx, 0);
-				break;
-			case 2:
-				DrawTwo(gfx, 0);
-				break;
-			case 3:
-				DrawThree(gfx, 0);
-				break;
-			case 4:
-				DrawFour(gfx, 0);
-				break;
-			case 5:
-				DrawFive(gfx, 0);
-				break;
-			case 6:
-				DrawSix(gfx, 0);
-				break;
-			case 7:
-				DrawSeven(gfx, 0);
-				break;
-			case 8:
-				DrawEight(gfx, 0);
-				break;
-			case 9:
-				DrawNine(gfx, 0);
-				break;
-			case 0:
-				DrawZero(gfx, 0);
-				break;
-		}
+		digits.pop_back();
+		--size;
+		n = n - 2;
 	}
 }
+
 void ScoreSprite::Draw(int _x1, int _y1,int _x2, int _y2,int _x3, int _y3,int _x4, int _y4,Graphics & gfx, int offset)
 {
 	int x0 = centerX - 20 + offset;

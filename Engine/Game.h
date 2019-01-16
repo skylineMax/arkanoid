@@ -53,8 +53,8 @@ private:
 	Rect walls;
 	Ball ball;
 
-	static constexpr int columns = 12;
-	static constexpr int rows = 4;
+	static constexpr int columns = 15;
+	static constexpr int rows = 5;
 	static constexpr int n = columns * rows;
 	Brick bricks[n];
 

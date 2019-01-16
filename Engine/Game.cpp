@@ -31,17 +31,20 @@ Game::Game(MainWindow& wnd)
 	gfx(wnd),
 	paddle(Vec2(750.0f,500.0f), 50.0f, 20.0f, Colors::White),
 	walls(0.0f, 0.0f, (float)gfx.ScreenWidth, (float)gfx.ScreenHeight),
-	ball(Vec2(790.0f, 375.0f), Vec2(-400.0f, 400.0f), Colors::Red),
+	ball(Vec2(790.0f, 375.0f), Vec2(-300.0f, 300.0f), Colors::Red),
 	rng(rd()),
 	xDist(0.0f, 770.0f),
 	yDist(0.0f, 570.0f)
 {
 	int i = 0;
+	float width = 40.0f;
+	float height = 20.0f;
+	Vec2 topLeft(100.0f, 100.0f);
 	for (int y = 0; y < rows; y++)
 	{
 		for (int x = 0; x < columns; x++)
 		{
-			bricks[i] = Brick(Rect(x * 20.0f, y * 10.0f, x * 40.0f + 20.0f, y * 20.0f + 10.0f), Colors::Cyan);
+			bricks[i] = Brick(Rect(topLeft + Vec2(x * width , y * height), width, height), Colors::Cyan);
 			i++;
 		}
 	}
@@ -68,11 +71,35 @@ void Game::UpdateModel(float dt)
 	paddle.Update(wnd.kbd, dt);
 
 	/* Collisions*/
-
+	bool collisionHappend = false;
+	float oldSq;
+	int oldIdx;
 	for (int i = 0; i < n; i++)
 	{
 		if (bricks[i].CheckBallCollision(ball))
-			bricks[i].DoBallCollision(ball);
+		{
+			const float currentSq = (ball.GetPos() - bricks[i].GetPos()).GetLengthSq();
+
+			if (collisionHappend)
+			{
+				if (currentSq < oldSq)
+				{
+					oldSq = currentSq;
+					oldIdx = i;
+				}
+			}
+			else 
+			{
+				oldSq = currentSq;
+				oldIdx = i;
+				collisionHappend = true;
+			}
+		}
+	}
+	if (collisionHappend)
+	{
+		bricks[oldIdx].DoBallCollision(ball);
+		paddle.ResetCooldown();
 	}
 	
 	paddle.DoBallCollision(ball);
@@ -92,6 +119,7 @@ void Game::ComposeFrame()
 
 	for (int i = 0; i < n; i++)
 	{
-		bricks[i].Draw(gfx);
+		if(!bricks[i].isDestroyed())
+			bricks[i].Draw(gfx);
 	}
 }

@@ -24,9 +24,10 @@
 #include "Keyboard.h"
 #include "Mouse.h"
 #include "Graphics.h"
-#include "Player.h"
-#include "Member.h"
 #include "FrameTimer.h"
+#include "Ball.h"
+#include "Brick.h"
+#include "Paddle.h"
 #include <random>
 
 class Game
@@ -39,7 +40,7 @@ public:
 
 private:
 	void ComposeFrame();
-	void UpdateModel();
+	void UpdateModel(float dt);
 	/********************************/
 	/*  User Functions              */
 
@@ -48,15 +49,15 @@ private:
 	MainWindow& wnd;
 	Graphics gfx;
 	FrameTimer ft;
-	Player player;
+	Paddle paddle;
+	Rect walls;
+	Ball ball;
+	Brick brick;
+
 	std::random_device rd;
 	std::mt19937 rng;
 	std::uniform_real_distribution<float> xDist;
 	std::uniform_real_distribution<float> yDist;
-
-	
-	static constexpr int nMembers = 20;
-	Member members[nMembers];
 
 	/********************************/
 	/*  User Variables     */

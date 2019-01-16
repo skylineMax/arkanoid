@@ -24,6 +24,7 @@
 #include <wrl.h>
 #include "ChiliException.h"
 #include "Colors.h"
+#include "Rect.h"
 
 class Graphics
 {
@@ -63,8 +64,16 @@ public:
 	{
 		DrawRectWithPoints(x0, y0, x0 + width, y0 + height, c);
 	}
+	void DrawRect(const Rect& rect, Color c)
+	{
+		DrawRectWithPoints((int)rect.left, (int)rect.top,(int)rect.right, (int)rect.bottom, c);
+	}
 
 	void DrawCircle(int x, int y, int r, Color c);
+	void DrawCircle(Vec2& pos, float r, Color c)
+	{
+		DrawCircle((int)pos.x, (int)pos.y, (int)r, c);
+	}
 	void DrawHorizontalLine(int x, int y, int length, Color c);
 	void DrawVerticalLine(int x, int y, int length, Color c);
 

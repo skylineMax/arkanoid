@@ -8,10 +8,11 @@ void Member::Init(Vec2 & _pos, Vec2 & _vel)
 
 void Member::Update(Player& player, float dt)
 {
+
 	pos += vel * dt;
 
 	const float right = pos.x + width;
-
+	
 	if (pos.x < 0)
 	{
 		pos.x = 0;
@@ -22,6 +23,7 @@ void Member::Update(Player& player, float dt)
 		pos.x = (float)Graphics::ScreenWidth - width;
 		vel.x = -vel.x;
 	}
+	
 
 	const float bottom = pos.y + height;
 

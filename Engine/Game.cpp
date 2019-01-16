@@ -29,56 +29,49 @@ Game::Game(MainWindow& wnd)
 	:
 	wnd(wnd),
 	gfx(wnd),
-	player(Vec2(400.0f,400.f), Vec2(3.0f * 60.0f, 3.0f * 60.0f)),
+	paddle(Vec2(750.0f,500.0f), 50.0f, 20.0f, Colors::White),
+	walls(0.0f, 0.0f, (float)gfx.ScreenWidth, (float)gfx.ScreenHeight),
+	ball(Vec2(790.0f, 375.0f), Vec2(-100.0f, 100.0f), Colors::Red),
+	brick(Rect(Vec2(400.0f, 400.0f), Vec2(450.0f, 450.0f)), Colors::Cyan),
 	rng(rd()),
-	xDist(0, 770),
-	yDist(0, 570)
+	xDist(0.0f, 770.0f),
+	yDist(0.0f, 570.0f)
 {
-	std::uniform_real_distribution<float> vDist(-1.5 * 60.0f, 1.5 * 60.0f);
-
-	for (int i = 0; i < nMembers; i++)
-	{
-		members[i].Init( Vec2(xDist(rng), yDist(rng)), Vec2(vDist(rng), vDist(rng)) );
-	}
 }
 
 void Game::Go()
 {
 	gfx.BeginFrame();	
-	UpdateModel();
+	float elapsedTime = ft.Mark();
+	while (elapsedTime > 0.0f)
+	{
+		const float dt = std::min(0.0025f, elapsedTime);
+		UpdateModel(dt);
+		elapsedTime -= dt;
+	}
 	ComposeFrame();
 	gfx.EndFrame();
 }
 
-void Game::UpdateModel()
+void Game::UpdateModel(float dt)
 {
-	const float dt = ft.Mark();
+	ball.Update(dt);
+	paddle.Update(wnd.kbd, dt);
+	
+	brick.DoBallCollision(ball);
+	paddle.DoBallCollision(ball);
+	if (ball.DoWallCollision(walls))
+		paddle.ResetCooldown();
 
-	if (!isGameOver)
-	{
-
-		player.Update(wnd.kbd, dt);
-		player.Update(wnd.mouse, dt);
-		player.ClampToScreen();
-		for (int i = 0; i < nMembers; i++)
-		{
-			/*if (members[i].TestCollision(player))
-				members[i].SetCollision(members[i].TestCollision(player));*/
-			if (members[i].TestCollision(player))
-				isGameOver = true;
-			members[i].Update(player, dt);
-			
-		}
-	}
+	paddle.DoWallCollision(walls);
 }
 
 
 void Game::ComposeFrame()
 {
-	for (int i = 0; i < nMembers; i++)
-	{
-		members[i].Draw(gfx, Colors::Cyan);
-	}
 
-	player.Draw(gfx, Colors::Red);
+	paddle.Draw(gfx);
+	ball.Draw(gfx);
+	if(!brick.isDestroyed())
+		brick.Draw(gfx);
 }

@@ -13,10 +13,10 @@ public:
 	bool CheckBallCollision(const Ball& ball) const;
 	void DoBallCollision(Ball& ball);
 
-	//Rect GetRect() const;
+	Vec2 GetPos() const;
 	bool isDestroyed() const;
 private:
-	static constexpr float padding = 1;
+	static constexpr float padding = 1.0f;
 	Rect brick;
 	Vec2 pos;
 	Color color;

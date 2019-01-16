@@ -28,6 +28,7 @@
 #include "Ball.h"
 #include "Brick.h"
 #include "Paddle.h"
+#include "ScoreSprite.h"
 #include <random>
 
 class Game
@@ -49,6 +50,12 @@ private:
 	MainWindow& wnd;
 	Graphics gfx;
 	FrameTimer ft;
+	std::random_device rd;
+	std::mt19937 rng;
+	std::uniform_real_distribution<float> xDist;
+	std::uniform_real_distribution<float> yDist;
+
+
 	Paddle paddle;
 	Rect walls;
 	Ball ball;
@@ -58,11 +65,8 @@ private:
 	static constexpr int n = columns * rows;
 	Brick bricks[n];
 
-	std::random_device rd;
-	std::mt19937 rng;
-	std::uniform_real_distribution<float> xDist;
-	std::uniform_real_distribution<float> yDist;
-
+	ScoreSprite score;
+	int Score = 0;
 	/********************************/
 	/*  User Variables     */
 	bool isStarted = false;

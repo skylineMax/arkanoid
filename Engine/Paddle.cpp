@@ -38,7 +38,7 @@ bool Paddle::DoBallCollision(Ball & ball)
 			Vec2 ballPos = ball.GetPos();
 			if (std::signbit(ball.GetVel().x) == std::signbit((ballPos - pos).x))
 			{
-					ball.ReboundY();
+				ball.ReboundY();
 			}
 			else if (ballPos.x >= paddle.left && ballPos.x <= paddle.right)
 			{

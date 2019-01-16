@@ -10,7 +10,12 @@ Brick::Brick(const Rect& _brick,Color _color) :
 
 void Brick::Draw(Graphics & gfx)
 {
-	gfx.DrawRect(brick, color);
+	gfx.DrawRect(Rect(
+		brick.left + padding,
+		brick.top + padding,
+		brick.right - padding,
+		brick.bottom - padding),
+		color);
 }
 
 bool Brick::CheckBallCollision(const Ball & ball) const
@@ -39,6 +44,11 @@ void Brick::DoBallCollision(Ball& ball)
 	destroyed = true;
 }
 
+
+Vec2 Brick::GetPos() const
+{
+	return pos;
+}
 
 bool Brick::isDestroyed() const
 {

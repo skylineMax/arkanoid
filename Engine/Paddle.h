@@ -20,6 +20,6 @@ private:
 	float halfWidth;
 	float halfHeight;
 	Color color;
-	float speed = 400.0f;
+	float speed = 500.0f;
 	bool cooldown = false;
 };

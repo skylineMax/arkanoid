@@ -320,10 +320,10 @@ void Graphics::PutPixel( int x,int y,Color c )
 
 void Graphics::DrawRectWithPoints(int x0, int y0, int x1, int y1, Color c)
 {
-	if (x0 > x1)
+	/*if (x0 > x1)
 		std::swap(x0, x1);
 	if (y0 > y1)
-		std::swap(y0, y1);
+		std::swap(y0, y1);*/
 
 	for (int _y = y0; _y < y1; ++_y)
 		for (int _x = x0; _x < x1; ++_x)

@@ -29,12 +29,12 @@ Game::Game(MainWindow& wnd)
 	:
 	wnd(wnd),
 	gfx(wnd),
-	paddle(Vec2(750.0f,500.0f), 50.0f, 20.0f, Colors::White),
-	walls(100.0f, 20.0f, 700, (float)gfx.ScreenHeight),
-	ball(Vec2(790.0f, 375.0f), Vec2(-300.0f, 300.0f), Colors::Red),
 	rng(rd()),
 	xDist(0.0f, 770.0f),
-	yDist(0.0f, 570.0f)
+	yDist(0.0f, 570.0f),
+	paddle(Vec2(400.0f, 550.0f), 30.0f, 5.0f, Colors::White),
+	walls(100.0f, 20.0f, 700, (float)gfx.ScreenHeight),
+	ball(Vec2(400.0f , 300.0f), Vec2(-300.0f, 300.0f), Colors::Red)
 {
 	int i = 0;
 	float width = 40.0f;
@@ -55,6 +55,7 @@ Game::Game(MainWindow& wnd)
 
 void Game::Go()
 {
+	
 	gfx.BeginFrame();	
 	float elapsedTime = ft.Mark();
 	while (elapsedTime > 0.0f)
@@ -69,6 +70,8 @@ void Game::Go()
 
 void Game::UpdateModel(float dt)
 {
+	if (isStarted && !isGameOver)
+	{
 	/* Updating */
 	ball.Update(dt);
 	paddle.Update(wnd.kbd, dt);
@@ -103,6 +106,7 @@ void Game::UpdateModel(float dt)
 	{
 		paddle.ResetCooldown();
 		bricks[oldIdx].DoBallCollision(ball);
+		Score++;
 	}
 	
 	paddle.DoBallCollision(ball);
@@ -111,6 +115,11 @@ void Game::UpdateModel(float dt)
 		paddle.ResetCooldown();
 
 	paddle.DoWallCollision(walls);
+	}
+	else {
+		if(wnd.kbd.KeyIsPressed(VK_RETURN))
+			isStarted = true;
+	}
 }
 
 
@@ -119,8 +128,15 @@ void Game::ComposeFrame()
 
 
 	paddle.Draw(gfx);
-	if(!ball.isDead())
+	if (!ball.isDead())
+	{
 		ball.Draw(gfx);
+	}
+	else
+	{
+		score.ShowScore(gfx, Score);
+		isGameOver = true;
+	}
 
 	for (int i = 0; i < n; i++)
 	{

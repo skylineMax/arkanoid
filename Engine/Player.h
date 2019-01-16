@@ -9,7 +9,7 @@
 class Player
 {
 public:
-	Player(Vec2& _pos, Vec2& _vel);
+	Player(Vec2& _pos);
 	void Update(const Keyboard& kbd, float dt);
 	void Update(const Mouse& mouse, float dt);
 	void ClampToScreen();
@@ -23,6 +23,7 @@ public:
 private:
 	Vec2 pos;
 	Vec2 vel;
+	static constexpr float speed = 3.0f * 60.0f;
 	static constexpr float width = 20.0f;
 	static constexpr float height = 20.0f;
 

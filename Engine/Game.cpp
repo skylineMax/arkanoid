@@ -29,16 +29,16 @@ Game::Game(MainWindow& wnd)
 	:
 	wnd(wnd),
 	gfx(wnd),
-	player(Vec2(400.0f,400.f), Vec2(3.0f * 60.0f, 3.0f * 60.0f)),
+	player(Vec2(400.0f,400.0f)),
 	rng(rd()),
-	xDist(0, 770),
-	yDist(0, 570)
+	xDist(0.0f, 770.0f),
+	yDist(0.0f, 570.0f)
 {
-	std::uniform_real_distribution<float> vDist(-1.5 * 60.0f, 1.5 * 60.0f);
+	std::uniform_real_distribution<float> vDist(-1.5f * 60.0f, 1.5f * 60.0f);
 
 	for (int i = 0; i < nMembers; i++)
 	{
-		members[i].Init( Vec2(xDist(rng), yDist(rng)), Vec2(vDist(rng), vDist(rng)) );
+		members[i].Init( Vec2(xDist(rng), yDist(rng)), Vec2(-1.0f * 60.0f,0) );
 	}
 }
 
@@ -56,16 +56,13 @@ void Game::UpdateModel()
 
 	if (!isGameOver)
 	{
-
 		player.Update(wnd.kbd, dt);
 		player.Update(wnd.mouse, dt);
 		player.ClampToScreen();
+
 		for (int i = 0; i < nMembers; i++)
 		{
-			/*if (members[i].TestCollision(player))
-				members[i].SetCollision(members[i].TestCollision(player));*/
-			if (members[i].TestCollision(player))
-				isGameOver = true;
+			members[i].SetCollision(members[i].TestCollision(player));
 			members[i].Update(player, dt);
 			
 		}

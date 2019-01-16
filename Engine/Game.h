@@ -55,7 +55,7 @@ private:
 	std::uniform_real_distribution<float> yDist;
 
 	
-	static constexpr int nMembers = 20;
+	static constexpr int nMembers = 1;
 	Member members[nMembers];
 
 	/********************************/

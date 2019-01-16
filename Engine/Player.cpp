@@ -1,9 +1,9 @@
 #include "Player.h"
 
 
-Player::Player(Vec2 & _pos, Vec2& _vel)
+Player::Player(Vec2 & _pos)
 	:
-	pos(_pos), vel(_vel)
+	pos(_pos)
 {
 }
 
@@ -18,7 +18,9 @@ void Player::Update(const Keyboard& kbd, float dt)
 		dvel.x -= 1.0f;
 	if (kbd.KeyIsPressed('D'))
 		dvel.x += 1.0f;
-	pos += dvel.GetNormalized() * vel * dt;
+
+	vel = dvel.GetNormalized();
+	pos += vel * speed * dt;
 }
 
 void Player::Update(const Mouse & mouse, float dt)
@@ -28,7 +30,7 @@ void Player::Update(const Mouse & mouse, float dt)
 		const Vec2 center = pos + Vec2(width / 2.0f, height / 2.0f);
 		const Vec2 toPointer = Vec2((float)mouse.GetPosX(), (float)mouse.GetPosY()) - center;
 		if (toPointer.GetLengthSq() > 2.0f)
-			pos += toPointer.GetNormalized() * vel * dt;
+			pos += toPointer.GetNormalized() * speed * dt;
 	}
 }
 

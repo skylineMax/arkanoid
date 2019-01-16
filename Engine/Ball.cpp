@@ -10,7 +10,6 @@ void Ball::Update(float dt)
 {
 	if (!dead)
 		pos += vel * dt;
-	
 }
 
 void Ball::Draw(Graphics & gfx)

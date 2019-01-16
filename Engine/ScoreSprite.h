@@ -20,5 +20,5 @@ public:
 	void DrawZero(Graphics& gfx, int offset);
 public:
 	int centerX = Graphics::ScreenWidth / 2;
-	int centerY = Graphics::ScreenHeight / 2;
+	int centerY = Graphics::ScreenHeight / 2 + 50;
 };

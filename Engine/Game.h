@@ -30,6 +30,7 @@
 #include "Paddle.h"
 #include "ScoreSprite.h"
 #include <random>
+#include <unordered_map>
 
 class Game
 {
@@ -65,9 +66,13 @@ private:
 	static constexpr int n = columns * rows;
 	Brick bricks[n];
 
+	std::unordered_map<int, std::pair<Brick, std::pair<std::string, int>>> Bricks;
+	
+
 	ScoreSprite score;
 	int Score = 0;
 	int extraLives = 2;
+	int brickLives = 1;
 	/********************************/
 	/*  User Variables     */
 	bool isStarted = false;

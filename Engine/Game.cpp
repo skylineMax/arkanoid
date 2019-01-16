@@ -40,14 +40,15 @@ Game::Game(MainWindow& wnd)
 	float width = 40.0f;
 	float height = 20.0f;
 	Vec2 topLeft(100.0f, 100.0f);
-	Color colors[rows] = {Colors::Cyan, Colors::Green, Colors::Magenta, Colors::Blue, Colors::Yellow};
+	Color Colors[rows] = {Colors::Cyan, Colors::Green, Colors::Magenta, Colors::Blue, Colors::Yellow};
+	std::string colors[rows] = {"Cyan", "Green", "Magenta", "Blue", "Yellow"};
 	for (int y = 0; y < rows; y++)
 	{
 		for (int x = 0; x < columns; x++)
 		{
-			bricks[i] = Brick(
-				Rect(topLeft + Vec2(x * width , y * height), width, height), 
-				colors[y]);
+			Bricks[i] = std::make_pair(Brick(
+				Rect(topLeft + Vec2(x * width , y * height), width, height),
+				Colors[y]), std::make_pair(colors[y], ((y == 4) ? 1 : 0)));
 			i++;
 		}
 	}
@@ -83,9 +84,9 @@ void Game::UpdateModel(float dt)
 	int oldIdx;
 	for (int i = 0; i < n; i++)
 	{
-		if (bricks[i].CheckBallCollision(ball))
+		if (Bricks[i].first.CheckBallCollision(ball))
 		{
-			const float currentSq = (ball.GetPos() - bricks[i].GetPos()).GetLengthSq();
+			const float currentSq = (ball.GetPos() - Bricks[i].first.GetPos()).GetLengthSq();
 
 			if (collisionHappend)
 			{
@@ -106,18 +107,21 @@ void Game::UpdateModel(float dt)
 	if (collisionHappend)
 	{
 		paddle.ResetCooldown();
-		bricks[oldIdx].DoBallCollision(ball);
-		Score++;
+		if ((Bricks[oldIdx].second.first == "Yellow"))
+		{
+			brickLives = Bricks[oldIdx].second.second--;
+		}
+		Bricks[oldIdx].first.DoBallCollision(ball, brickLives, Score);
 	}
 	
 	paddle.DoBallCollision(ball);
+	paddle.DoWallCollision(walls);
 
 	if (ball.DoWallCollision(walls))
 		paddle.ResetCooldown();
-
-	paddle.DoWallCollision(walls);
 	}
-	else {
+	else 
+	{
 		if(wnd.kbd.KeyIsPressed(VK_RETURN))
 			isStarted = true;
 	}
@@ -144,11 +148,12 @@ void Game::ComposeFrame()
 	
 		
 
-	for (int i = 0; i < n; i++)
+	for (auto el : Bricks)
 	{
-		if(!bricks[i].isDestroyed())
-			bricks[i].Draw(gfx);
+		if(!el.second.first.isDestroyed())
+			el.second.first.Draw(gfx);
 	}
+	
 	gfx.DrawRectWithPoints(80,0,720,20,Colors::Blue);
 	gfx.DrawRectWithPoints(80,20,100,gfx.ScreenHeight,Colors::Blue);
 	gfx.DrawRectWithPoints(700,20,720, gfx.ScreenHeight,Colors::Blue);

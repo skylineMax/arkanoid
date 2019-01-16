@@ -11,7 +11,7 @@ public:
 	Brick(const Rect& _rect, Color _color);
 	void Draw(Graphics& gfx);
 	bool CheckBallCollision(const Ball& ball) const;
-	void DoBallCollision(Ball& ball);
+	void DoBallCollision(Ball& ball, int& _lives, int& score);
 
 	Vec2 GetPos() const;
 	bool isDestroyed() const;

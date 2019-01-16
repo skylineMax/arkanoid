@@ -70,6 +70,7 @@ void Game::Go()
 
 void Game::UpdateModel(float dt)
 {
+
 	if (isStarted && !isGameOver)
 	{
 	/* Updating */
@@ -132,9 +133,16 @@ void Game::ComposeFrame()
 	}
 	else
 	{
-		score.ShowScore(gfx, Score);
-		isGameOver = true;
+		--extraLives;
+		if (extraLives < 0)
+		{
+			score.ShowScore(gfx, Score);
+			isGameOver = true;
+		}
+		else ball.ResetBall();
 	}
+	
+		
 
 	for (int i = 0; i < n; i++)
 	{

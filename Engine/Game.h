@@ -67,6 +67,7 @@ private:
 
 	ScoreSprite score;
 	int Score = 0;
+	int extraLives = 2;
 	/********************************/
 	/*  User Variables     */
 	bool isStarted = false;

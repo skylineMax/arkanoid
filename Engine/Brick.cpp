@@ -23,7 +23,7 @@ bool Brick::CheckBallCollision(const Ball & ball) const
 	return !destroyed && brick.isOverLappingWith(ball.GetRect());
 }
 
-void Brick::DoBallCollision(Ball& ball, int& _lives, int& score)
+void Brick::DoBallCollision(Ball& ball, int& score)
 {
 	assert(CheckBallCollision(ball));
 
@@ -40,12 +40,8 @@ void Brick::DoBallCollision(Ball& ball, int& _lives, int& score)
 	else {
 		ball.ReboundX();
 	}
-	destroyed = false;
-	if (!_lives)
-	{
-		destroyed = true;
-		score++;
-	}
+	destroyed = true;
+	score++;
 }
 
 

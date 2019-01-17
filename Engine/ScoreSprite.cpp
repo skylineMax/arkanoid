@@ -17,7 +17,7 @@ void ScoreSprite::ShowScore(Graphics& gfx, int score)
 	int n = size;
 	while (size != 0)
 	{
-		int offset = (n > 1) ? -25*(n - 1) : 0;
+		int offset = -25*(n - 1);
 		switch (*(digits.end() - 1))
 		{
 		case 1:

@@ -42,13 +42,14 @@ Game::Game(MainWindow& wnd)
 	Vec2 topLeft(100.0f, 100.0f);
 	Color Colors[rows] = {Colors::Cyan, Colors::Green, Colors::Magenta, Colors::Blue, Colors::Yellow};
 	std::string colors[rows] = {"Cyan", "Green", "Magenta", "Blue", "Yellow"};
+
 	for (int y = 0; y < rows; y++)
 	{
 		for (int x = 0; x < columns; x++)
 		{
-			Bricks[i] = std::make_pair(Brick(
+			Bricks[i] = Brick(
 				Rect(topLeft + Vec2(x * width , y * height), width, height),
-				Colors[y]), std::make_pair(colors[y], ((y == 4) ? 1 : 0)));
+				Colors[y]);
 			i++;
 		}
 	}
@@ -84,9 +85,9 @@ void Game::UpdateModel(float dt)
 	int oldIdx;
 	for (int i = 0; i < n; i++)
 	{
-		if (Bricks[i].first.CheckBallCollision(ball))
+		if (Bricks[i].CheckBallCollision(ball))
 		{
-			const float currentSq = (ball.GetPos() - Bricks[i].first.GetPos()).GetLengthSq();
+			const float currentSq = (ball.GetPos() - Bricks[i].GetPos()).GetLengthSq();
 
 			if (collisionHappend)
 			{
@@ -107,11 +108,8 @@ void Game::UpdateModel(float dt)
 	if (collisionHappend)
 	{
 		paddle.ResetCooldown();
-		if ((Bricks[oldIdx].second.first == "Yellow"))
-		{
-			brickLives = Bricks[oldIdx].second.second--;
-		}
-		Bricks[oldIdx].first.DoBallCollision(ball, brickLives, Score);
+		
+		Bricks[oldIdx].DoBallCollision(ball, Score);
 	}
 	
 	paddle.DoBallCollision(ball);
@@ -131,7 +129,7 @@ void Game::UpdateModel(float dt)
 void Game::ComposeFrame()
 {
 	paddle.Draw(gfx);
-	if (!ball.isDead())
+	if (ball.isDead())
 	{
 		ball.Draw(gfx);
 	}
@@ -150,8 +148,8 @@ void Game::ComposeFrame()
 
 	for (auto el : Bricks)
 	{
-		if(!el.second.first.isDestroyed())
-			el.second.first.Draw(gfx);
+		if(!el.second.isDestroyed())
+			el.second.Draw(gfx);
 	}
 	
 	gfx.DrawRectWithPoints(80,0,720,20,Colors::Blue);

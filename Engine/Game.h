@@ -66,7 +66,7 @@ private:
 	static constexpr int n = columns * rows;
 	Brick bricks[n];
 
-	std::unordered_map<int, std::pair<Brick, std::pair<std::string, int>>> Bricks;
+	std::unordered_map<int, Brick> Bricks;
 	
 
 	ScoreSprite score;

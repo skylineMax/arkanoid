@@ -1,9 +1,9 @@
 #include "Ball.h"
 
 Ball::Ball(const Vec2 & center, const Vec2& _vel, Color _color) :
-	pos(center), vel(_vel), color(_color)
+	pos(center), color(_color)
 {
-
+	SetDir(_vel);
 }
 
 void Ball::Update(float dt)
@@ -81,9 +81,9 @@ Vec2 Ball::GetVel() const
 	return vel;
 }
 
-void Ball::SetDir(Vec2 _vel)
+void Ball::SetDir(const Vec2& _vel)
 {
-	vel = _vel;
+	vel = _vel * speed;
 }
 
 bool Ball::isDead() const

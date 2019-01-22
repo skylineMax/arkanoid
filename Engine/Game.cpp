@@ -32,9 +32,10 @@ Game::Game(MainWindow& wnd)
 	rng(rd()),
 	xDist(0.0f, 770.0f),
 	yDist(0.0f, 570.0f),
+	vDist(-0.75f, 0.75f),
 	paddle(Vec2(400.0f, 550.0f), 30.0f, 5.0f, Colors::White),
 	walls(100.0f, 20.0f, 700, (float)gfx.ScreenHeight),
-	ball(Vec2(400.0f , 300.0f), Vec2(-300.0f, 300.0f), Colors::Red)
+	ball(Vec2(400.0f , 300.0f), Vec2(-0.75f, 0.75f), Colors::Red)
 {
 	int i = 0;
 	float width = 40.0f;
@@ -88,7 +89,6 @@ void Game::UpdateModel(float dt)
 		if (Bricks[i].CheckBallCollision(ball))
 		{
 			const float currentSq = (ball.GetPos() - Bricks[i].GetPos()).GetLengthSq();
-
 			if (collisionHappend)
 			{
 				if (currentSq < oldSq)
@@ -125,11 +125,10 @@ void Game::UpdateModel(float dt)
 	}
 }
 
-
 void Game::ComposeFrame()
 {
 	paddle.Draw(gfx);
-	if (ball.isDead())
+	if (!ball.isDead())
 	{
 		ball.Draw(gfx);
 	}
@@ -144,8 +143,6 @@ void Game::ComposeFrame()
 		else ball.ResetBall();
 	}
 	
-		
-
 	for (auto el : Bricks)
 	{
 		if(!el.second.isDestroyed())

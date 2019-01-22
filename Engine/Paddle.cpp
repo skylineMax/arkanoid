@@ -8,9 +8,9 @@ Paddle::Paddle(const Vec2& _pos, float _halfWidth, float _halfHeight, Color _col
 
 void Paddle::Update(const Keyboard& kbd, float dt)
 {
-	if (kbd.KeyIsPressed('A'))
+	if (kbd.KeyIsPressed('A') || kbd.KeyIsPressed(VK_LEFT))
 		pos.x -= speed * dt;
-	if (kbd.KeyIsPressed('D'))
+	if (kbd.KeyIsPressed('D') || kbd.KeyIsPressed(VK_RIGHT))
 		pos.x += speed * dt;
 
 }
@@ -36,13 +36,12 @@ bool Paddle::DoBallCollision(Ball & ball)
 		if (paddle.isOverLappingWith(ball.GetRect()))
 		{
 			Vec2 ballPos = ball.GetPos();
-			if (std::signbit(ball.GetVel().x) == std::signbit((ballPos - pos).x))
+			Vec2 ballDir = (ballPos - pos).GetNormalized();
+
+			if (std::signbit(ball.GetVel().x) == std::signbit((ballPos - pos).x)
+				|| (ballPos.x >= paddle.left && ballPos.x <= paddle.right))
 			{
-				ball.ReboundY();
-			}
-			else if (ballPos.x >= paddle.left && ballPos.x <= paddle.right)
-			{
-				ball.ReboundY();
+				ball.SetDir(ballDir);
 			}
 			else
 			{
